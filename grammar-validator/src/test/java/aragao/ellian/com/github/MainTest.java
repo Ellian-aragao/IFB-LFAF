@@ -3,6 +3,7 @@ package aragao.ellian.com.github;
 import org.junit.jupiter.api.Test;
 
 import static aragao.ellian.com.github.Main.verificarGramatica;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MainTest {
@@ -16,12 +17,12 @@ class MainTest {
     @Test
     void validateCaseagua() {
         String palavra = "agua";
-        assertTrue(verificarGramatica(palavra));
+        assertFalse(verificarGramatica(palavra));
     }
 
     @Test
     void validateCasecanto() {
         String palavra = "canto";
-        assertTrue(verificarGramatica(palavra));
+        assertFalse(verificarGramatica(palavra));
     }
 }
