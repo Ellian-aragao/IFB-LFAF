@@ -15,30 +15,35 @@
     <maven.compiler.target>20</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <slf4j.version>2.0.9</slf4j.version>
+    <javax-validation.version>1.1.0.Final</javax-validation.version>
+    <logback.version>1.4.11</logback.version>
+    <junit.version>5.10.0</junit.version>
+
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>${javax-validation.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${slf4j.version}</version>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>org.slf4j</groupId>-->
-<!--      <artifactId>slf4j-simple</artifactId>-->
-<!--      <version>${slf4j.version}</version>-->
-<!--    </dependency>-->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.4.11</version>
+      <version>${logback.version}</version>
     </dependency>
 
 
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.10.0</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -53,7 +58,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>aragao.ellian.com.github.Main</mainClass>
+              <mainClass>aragao.ellian.com.github.Questao1CaseDeTeste</mainClass>
             </manifest>
             <manifestEntries>
               <Created-By>Ellian Aragão Dias</Created-By>
@@ -66,7 +71,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>aragao.ellian.com.github.Main</mainClass>
+              <mainClass>aragao.ellian.com.github.Questao1CaseDeTeste</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
