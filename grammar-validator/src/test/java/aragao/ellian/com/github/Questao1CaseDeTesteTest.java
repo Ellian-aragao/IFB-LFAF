@@ -14,20 +14,13 @@ class Questao1CaseDeTesteTest {
     }
 
     @Test
-    void validateCasebaba() {
-        final var palavra = "baba";
-        assertTrue(questao1CaseDeTeste.verificarGramatica(palavra));
+    void validateCaseTrue() {
+        assertTrue(questao1CaseDeTeste.verificarGramatica("baba"));
     }
 
     @Test
-    void validateCaseagua() {
-        String palavra = "agua";
-        assertFalse(questao1CaseDeTeste.verificarGramatica(palavra));
-    }
-
-    @Test
-    void validateCasecanto() {
-        String palavra = "canto";
-        assertFalse(questao1CaseDeTeste.verificarGramatica(palavra));
+    void validateCaseFalse() {
+        assertFalse(questao1CaseDeTeste.verificarGramatica("agua"));
+        assertFalse(questao1CaseDeTeste.verificarGramatica("canto"));
     }
 }

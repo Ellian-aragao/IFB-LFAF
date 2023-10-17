@@ -1,14 +1,13 @@
 package aragao.ellian.com.github;
 
-import aragao.ellian.com.github.commons.Tuple2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
 import java.util.*;
 
 public class Questao1CaseDeTeste {
     final static Logger log = LoggerFactory.getLogger(Questao1CaseDeTeste.class);
+    private static final long TOTAL_RECURSIVE_ITERATIONS = 10;
     private final Set<String> alfabeto = Set.of("a", "b");
     private final Map<String, List<String>> mapper;
 
@@ -27,35 +26,35 @@ public class Questao1CaseDeTeste {
         mapper.put("FY", List.of(""));
     }
 
-    public boolean verificarGramatica( String palavra) {
-        if (alfabeto.stream().allMatch(palavra::contains)) return false;
+    public boolean verificarGramatica(String palavra) {
+        if (Objects.isNull(palavra) || !alfabeto.stream().allMatch(palavra::contains)) return false;
 
         final var palavraGramaticaInicial = "S";
-        return verificarGramatica(Tuple2.of(palavraGramaticaInicial, palavra));
+        return verificarGramatica(palavraGramaticaInicial, palavra, 0L);
     }
 
-    private boolean verificarGramatica(@NotNull Tuple2<String, String> parsingPalavraEPalavra) {
-        final var palavra = parsingPalavraEPalavra.obj1();
-        final var parsingPalavra = parsingPalavraEPalavra.obj2();
-
-        log.debug("Current Parsing: {}", parsingPalavra);
-        if (parsingPalavra.length() >= palavra.length() + 10) return false;
+    private boolean verificarGramatica(String palavraGramaticaDerivada, String parsingPalavra, long contador) {
+        log.debug("Current Parsing: {}", palavraGramaticaDerivada);
+        if (contador >= TOTAL_RECURSIVE_ITERATIONS) return false;
 
         return mapper.entrySet()
                 .stream()
-                .filter(entry -> parsingPalavra.contains(entry.getKey()))
+                .filter(entry -> palavraGramaticaDerivada.contains(entry.getKey()))
                 .findFirst()
-                .map(values ->
-                        values.getValue().stream().map(value -> {
-                                    final var palavraGramaticaAlterada = parsingPalavra.replace(values.getKey(), value);
-                                    log.debug("Replacing {} with {} => {}", palavra, value, palavraGramaticaAlterada);
-                                    final var parsingPalavraEPalavra1 = Tuple2.of(palavraGramaticaAlterada, palavra);
-                                    return palavra.equals(palavraGramaticaAlterada) || verificarGramatica(parsingPalavraEPalavra1);
-                                })
-                                .toList()
-                )
+                .map(values -> derivaPalavraGramatica(palavraGramaticaDerivada, parsingPalavra, values, contador))
                 .stream()
                 .flatMap(Collection::stream)
                 .anyMatch(Boolean.TRUE::equals);
+    }
+
+    private List<Boolean> derivaPalavraGramatica(String palavraGramaticaDerivada, String parsingPalavra, Map.Entry<String, List<String>> values, long contador) {
+        return values.getValue()
+                .stream()
+                .map(value -> {
+                    final var palavraGramaticaAlterada = palavraGramaticaDerivada.replace(values.getKey(), value);
+                    log.debug("Replacing {} with {} => {}", palavraGramaticaDerivada, value, palavraGramaticaAlterada);
+                    return parsingPalavra.equals(palavraGramaticaAlterada) || verificarGramatica(palavraGramaticaAlterada, parsingPalavra, contador + 1);
+                })
+                .toList();
     }
 }
